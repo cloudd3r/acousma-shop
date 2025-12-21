@@ -1,0 +1,985 @@
+<!-- 
+    INSTRUCTIONS FOR TELEGRAM MINI APP:
+    1. Upload this folder (index.html + images folder) to any static hosting (GitHub Pages, Vercel, Netlify, or your own server).
+       Example URL: https://your-site.com/index.html
+    2. Open @BotFather in Telegram.
+    3. Select your bot (or create new with /newbot).
+    4. Go to "Bot Settings" -> "Menu Button" -> "Configure Menu Button".
+    5. Send the URL of your hosted page title (e.g. "Shop").
+    6. Done! Now the "Shop" button will open this Web App inside Telegram.
+-->
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lingerie Boutique</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #D4A5A5;
+            --primary-dark: #B58484;
+            --secondary: #F8EDED;
+            --accent: #E2B2B2;
+            --text-main: #333333;
+            --text-light: #777777;
+            --bg: #FAFAFA;
+            --white: #FFFFFF;
+            --success: #4CAF50;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding-bottom: 80px;
+            /* Space for floating cart */
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .brand {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            gap: 10px;
+            padding: 16px 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-pill {
+            padding: 8px 16px;
+            background: var(--white);
+            border: 1px solid #EAEAEA;
+            border-radius: 50px;
+            font-size: 14px;
+            white-space: nowrap;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cat-pill.active {
+            background: var(--text-main);
+            color: var(--white);
+            border-color: var(--text-main);
+        }
+
+        /* Product Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 0 16px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.1s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        .card-img-wrap {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: #f0f0f0;
+            position: relative;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-body {
+            padding: 12px;
+        }
+
+        .card-title {
+            font-size: 13px;
+            margin-bottom: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .card-price {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: var(--text-light);
+            font-size: 12px;
+            margin-left: 6px;
+            font-weight: 400;
+        }
+
+        .card-sizes {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* Product Detail View */
+        .view {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            z-index: 200;
+            overflow-y: auto;
+            padding-bottom: 100px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .detail-img {
+            width: 100%;
+            height: 50vh;
+            object-fit: cover;
+        }
+
+        .detail-content {
+            padding: 24px;
+            background: var(--white);
+            border-radius: 24px 24px 0 0;
+            margin-top: -24px;
+            position: relative;
+            min-height: 50vh;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .detail-price {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .detail-meta {
+            margin: 20px 0;
+            background: var(--secondary);
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+
+        .meta-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .meta-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .meta-label {
+            color: var(--text-light);
+        }
+
+        .size-selector {
+            margin: 20px 0;
+        }
+
+        .size-label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .sizes-grid {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .size-btn {
+            padding: 10px 18px;
+            border: 1px solid #ddd;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .size-btn.selected {
+            border-color: var(--primary-dark);
+            background: var(--primary-dark);
+            color: var(--white);
+        }
+
+        .action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--white);
+            padding: 16px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--text-main);
+            color: var(--white);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--primary-dark);
+        }
+
+        /* Cart View */
+        .cart-item {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+            background: var(--white);
+        }
+
+        .cart-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .cart-info {
+            flex: 1;
+        }
+
+        .cart-name {
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .cart-details {
+            color: var(--text-light);
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .qty-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .cart-total {
+            padding: 20px;
+            background: var(--white);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Floating Cart */
+        .floating-cart {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--primary-dark);
+            color: var(--white);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(181, 132, 132, 0.4);
+            cursor: pointer;
+            z-index: 90;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--text-main);
+            color: var(--white);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 300;
+            display: none;
+            align-items: flex-end;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 100%;
+            padding: 24px;
+            border-radius: 24px 24px 0 0;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: var(--text-light);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Main App -->
+    <div id="app">
+
+        <!-- Header -->
+        <header id="main-header">
+            <div class="brand">LUMIÈRE LINGERIE</div>
+            <div class="subtitle">Распродажа женского нижнего белья</div>
+        </header>
+
+        <!-- Main View: Catalog -->
+        <div id="catalog-view">
+            <div class="categories">
+                <div class="cat-pill active" onclick="filterCat('all', this)">Все</div>
+                <div class="cat-pill" onclick="filterCat('bra', this)">Бюстгальтеры</div>
+                <div class="cat-pill" onclick="filterCat('panties', this)">Трусы</div>
+                <div class="cat-pill" onclick="filterCat('nightgowns', this)">Сорочки</div>
+                <div class="cat-pill" onclick="filterCat('corset', this)">Корсеты</div>
+                <div class="cat-pill" onclick="filterCat('top', this)">Топы</div>
+                <div class="cat-pill" onclick="filterCat('set', this)">Комплекты</div>
+            </div>
+
+            <div class="grid" id="product-grid">
+                <!-- Products injected here -->
+            </div>
+        </div>
+
+        <!-- Detail View -->
+        <div id="product-view" class="view">
+            <button class="back-btn" onclick="closeProduct()">←</button>
+            <img id="detail-img" class="detail-img" src="" alt="">
+            <div class="detail-content">
+                <div class="detail-row">
+                    <div>
+                        <h2 id="detail-name" style="font-size: 18px; margin-bottom: 4px;">Name</h2>
+                        <div style="color: var(--text-light); font-size: 13px;" id="detail-brand">Lormar</div>
+                    </div>
+                </div>
+
+                <div class="detail-price">
+                    <span id="detail-price">2500 ₽</span>
+                    <span id="detail-old-price" class="old-price"></span>
+                    <span id="detail-discount" style="font-size: 14px; color: var(--success); margin-left:8px"></span>
+                </div>
+
+                <div class="detail-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Материал</span>
+                        <span>Кружево, полиамид</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Цвет</span>
+                        <span id="detail-color">Черный</span>
+                    </div>
+                </div>
+
+                <div class="size-selector">
+                    <span class="size-label">Выберите размер:</span>
+                    <div class="sizes-grid" id="detail-sizes">
+                        <!-- Sizes injected here -->
+                    </div>
+                </div>
+
+                <div style="height: 60px;"></div> <!-- Spacer -->
+            </div>
+
+            <div class="action-bar">
+                <a href="#" id="tg-btn" class="btn btn-outline" style="flex:0.4">Chat</a>
+                <button class="btn btn-primary" onclick="addToCartCurrent()">В корзину</button>
+            </div>
+        </div>
+
+        <!-- Cart View -->
+        <div id="cart-view" class="view">
+            <header style="display:flex; justify-content:space-between; align-items:center;">
+                <button class="back-btn" style="position:static; width:32px; height:32px; font-size:16px;"
+                    onclick="closeCart()">←</button>
+                <span style="font-weight:600;">Корзина</span>
+                <div style="width:32px"></div>
+            </header>
+
+            <div id="cart-list">
+                <!-- Cart items -->
+            </div>
+
+            <div class="cart-total" id="cart-footer" style="display:none">
+                <div class="total-row">
+                    <span>Итого:</span>
+                    <span id="cart-total-sum">0 ₽</span>
+                </div>
+                <button class="btn btn-primary" style="width:100%" onclick="openCheckout()">Оформить заказ</button>
+            </div>
+
+            <div id="cart-empty" class="empty-cart">
+                Ваша корзина пуста
+            </div>
+        </div>
+
+        <!-- Checkout Modal -->
+        <div id="checkout-modal" class="modal-overlay" onclick="if(event.target===this) closeCheckout()">
+            <div class="modal-content">
+                <h3 style="margin-bottom:20px;">Оформление заказа</h3>
+                <div class="form-group">
+                    <label class="form-label">Ваше имя</label>
+                    <input type="text" class="form-input" id="order-name" placeholder="Мария">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Telegram username</label>
+                    <input type="text" class="form-input" id="order-tg" placeholder="@username">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Комментарий</label>
+                    <input type="text" class="form-input" id="order-comment" placeholder="Способ связи, пожелания...">
+                </div>
+                <button class="btn btn-primary" style="width:100%" onclick="submitOrder()">Отправить заказ</button>
+            </div>
+        </div>
+
+        <!-- Floating Cart -->
+        <div class="floating-cart" onclick="openCart()">
+            <div class="cart-count" id="float-count">0</div>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                    d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-19l-2 2H2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.59-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm0 0" />
+            </svg>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // CONFIG
+        const TG_USERNAME = "my_lingerie_shop"; // REPLACE THIS
+
+        // MOCK DATA
+        const products = [
+            // BRAS
+            { id: 107, name: "Бюстгальтер Lace #107", category: "bra", price: 2500, sizes: ["75B", "80B", "85C"], image: "bra/photo_107.jpg", color: "Бежевый", isNew: true },
+            { id: 109, name: "Бюстгальтер Classic #109", category: "bra", price: 2200, sizes: ["70B", "75B"], image: "bra/photo_109.jpg", color: "Белый" },
+            { id: 112, name: "Бюстгальтер Silk #112", category: "bra", price: 2800, oldPrice: 3200, sizes: ["75C", "80C"], image: "bra/photo_112.jpg", color: "Черный" },
+            { id: 116, name: "Бюстгальтер PushUp #116", category: "bra", price: 2100, sizes: ["70A", "75A"], image: "bra/photo_116.jpg", color: "Красный" },
+            { id: 117, name: "Бюстгальтер Soft #117", category: "bra", price: 2300, sizes: ["80B", "85B"], image: "bra/photo_117.jpg", color: "Синий" },
+
+            // CORSETS
+            { id: 1001, name: "Корсет Satin #1", category: "corset", price: 4500, sizes: ["S", "M"], image: "corset/corset_1_1.jpg", color: "Бежевый", isNew: true },
+            { id: 1002, name: "Корсет Lace #2", category: "corset", price: 4200, sizes: ["M", "L"], image: "corset/corset_2_1.jpg", color: "Черный" },
+            { id: 1003, name: "Корсет Elegant #3", category: "corset", price: 4800, oldPrice: 5500, sizes: ["S", "M", "L"], image: "corset/corset_3_1.jpg", color: "Белый" },
+            { id: 1004, name: "Корсет Night #4", category: "corset", price: 4100, sizes: ["XS", "S"], image: "corset/corset_4_1.jpg", color: "Красный" },
+            { id: 1005, name: "Корсет Royal #5", category: "corset", price: 5000, sizes: ["M", "L"], image: "corset/corset_5_1.jpg", color: "Золотой" },
+
+            // NIGHTGOWNS
+            { id: 2002, name: "Сорочка Silk #2", category: "nightgowns", price: 3500, sizes: ["S", "M"], image: "nightgowns/photo_2.jpg", color: "Розовый" },
+            { id: 2005, name: "Сорочка Lace #5", category: "nightgowns", price: 3200, sizes: ["M", "L"], image: "nightgowns/photo_5.jpg", color: "Белый", isNew: true },
+            { id: 2017, name: "Сорочка Long #17", category: "nightgowns", price: 3800, sizes: ["L", "XL"], image: "nightgowns/photo_17.jpg", color: "Черный" },
+            { id: 2023, name: "Сорочка Mini #23", category: "nightgowns", price: 2900, oldPrice: 3400, sizes: ["S", "M"], image: "nightgowns/photo_23.jpg", color: "Красный" },
+            { id: 2025, name: "Сорочка Comfort #25", category: "nightgowns", price: 2700, sizes: ["S", "M", "L"], image: "nightgowns/photo_25.jpg", color: "Синий" },
+
+            // PANTIES
+            { id: 3305, name: "Трусики Lace #305", category: "panties", price: 800, sizes: ["S", "M"], image: "panties/photo_305.jpg", color: "Белый" },
+            { id: 3306, name: "Трусики Brazilian #306", category: "panties", price: 850, sizes: ["M", "L"], image: "panties/photo_306.jpg", color: "Черный" },
+            { id: 3307, name: "Трусики Slip #307", category: "panties", price: 750, sizes: ["S", "M", "L"], image: "panties/photo_307.jpg", color: "Бежевый", isNew: true },
+            { id: 3308, name: "Трусики High #308", category: "panties", price: 900, sizes: ["M", "L", "XL"], image: "panties/photo_308.jpg", color: "Красный" },
+            { id: 3309, name: "Трусики Silk #309", category: "panties", price: 950, sizes: ["S", "M"], image: "panties/photo_309.jpg", color: "Розовый" },
+
+            // SETS
+            { id: 4100, name: "Комплект Love #100", category: "set", price: 4200, sizes: ["75B+S", "80B+M"], image: "set/photo_100.jpg", color: "Красный", isNew: true },
+            { id: 4101, name: "Комплект Night #101", category: "set", price: 4500, sizes: ["70B+S", "75B+M"], image: "set/photo_101.jpg", color: "Черный" },
+            { id: 4104, name: "Комплект Mystery #104", category: "set", price: 4800, sizes: ["75C+M", "80C+L"], image: "set/photo_104.jpg", color: "Синий" },
+            { id: 4105, name: "Комплект Angel #105", category: "set", price: 4100, oldPrice: 4700, sizes: ["70B+S", "75B+M"], image: "set/photo_105.jpg", color: "Белый" },
+            { id: 4106, name: "Комплект Passion #106", category: "set", price: 4300, sizes: ["75B+S", "80B+M"], image: "set/photo_106.jpg", color: "Бордовый" },
+
+            // TOPS
+            { id: 5011, name: "Топ Sport #11", category: "top", price: 1500, sizes: ["S", "M"], image: "top/photo_11.jpg", color: "Серый" },
+            { id: 5012, name: "Топ Lace #12", category: "top", price: 1800, sizes: ["M", "L"], image: "top/photo_12.jpg", color: "Черный", isNew: true },
+            { id: 5018, name: "Топ Silk #18", category: "top", price: 2100, sizes: ["S", "M"], image: "top/photo_18.jpg", color: "Белый" },
+            { id: 5022, name: "Топ Basic #22", category: "top", price: 1200, sizes: ["XS", "S", "M"], image: "top/photo_22.jpg", color: "Бежевый" },
+            { id: 5009, name: "Топ Summer #9", category: "top", price: 1400, sizes: ["S", "M"], image: "top/photo_9.jpg", color: "Розовый" }
+        ];
+
+        // STATE
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let currentProduct = null;
+        let selectedSize = null;
+
+        // DOM ELEMENTS
+        const grid = document.getElementById('product-grid');
+        const detailView = document.getElementById('product-view');
+        const cartView = document.getElementById('cart-view');
+
+        // PAGINATION & STATE
+        let currentPage = 1;
+        const itemsPerPage = 20;
+        let currentFilteredList = [];
+
+        // INIT
+        function init() {
+            currentFilteredList = products;
+            renderProductChunks(true);
+            setupInfiniteScroll();
+            updateCartCount();
+        }
+
+        // RENDER LOGIC (CHUNKS)
+        function renderProductChunks(reset = false) {
+            if (reset) {
+                currentPage = 1;
+                grid.innerHTML = '';
+                window.scrollTo(0, 0);
+            }
+
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const chunk = currentFilteredList.slice(start, end);
+
+            // If empty search result
+            if (chunk.length === 0 && currentPage === 1) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; color:var(--text-light)">Ничего не найдено</div>';
+                return;
+            }
+
+            // Append items
+            const html = chunk.map(p => {
+                const discount = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
+                return `
+                <div class="card" onclick="openProduct(${p.id})">
+                    <div class="card-img-wrap">
+                        <img src="${p.image}" class="card-img" alt="${p.name}" loading="lazy">
+                        ${p.isNew ? `<div class="badge" style="color:#000">New</div>` : ''}
+                        ${discount > 0 ? `<div class="badge" style="background:#000; color:#fff; top:auto; bottom:8px; left:8px">-${discount}%</div>` : ''}
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">${p.name}</div>
+                        <div>
+                            <span class="card-price">${p.price} ₽</span>
+                            ${p.oldPrice ? `<span class="old-price">${p.oldPrice}</span>` : ''}
+                        </div>
+                        <div class="card-sizes">${p.sizes.slice(0, 3).join(', ')}</div>
+                    </div>
+                </div>
+            `}).join('');
+
+            grid.insertAdjacentHTML('beforeend', html);
+        }
+
+        function loadMore() {
+            const totalPages = Math.ceil(currentFilteredList.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderProductChunks(false);
+            }
+        }
+
+        // INFINITE SCROLL
+        function setupInfiniteScroll() {
+            const sentinel = document.createElement('div');
+            sentinel.style.height = '20px';
+            grid.parentNode.appendChild(sentinel);
+
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    loadMore();
+                }
+            }, { rootMargin: '400px' });
+
+            observer.observe(sentinel);
+        }
+
+        // FILTER UPDATE
+        function filterCat(cat, btn) {
+            document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+
+            if (cat === 'all') {
+                currentFilteredList = products;
+            } else if (cat === 'sale') {
+                currentFilteredList = products.filter(p => p.oldPrice && p.price < p.oldPrice);
+            } else {
+                currentFilteredList = products.filter(p => p.category === cat);
+            }
+            renderProductChunks(true);
+        }
+
+        // PRODUCT DETAILS
+        function openProduct(id) {
+            const p = products.find(x => x.id === id);
+            currentProduct = p;
+            selectedSize = null;
+
+            document.getElementById('detail-img').src = p.image;
+            document.getElementById('detail-name').innerText = p.name;
+            document.getElementById('detail-brand').innerText = p.brand;
+            document.getElementById('detail-price').innerText = p.price + ' ₽';
+            document.getElementById('detail-color').innerText = p.color;
+
+            // Old Price
+            if (p.oldPrice) {
+                document.getElementById('detail-old-price').innerText = p.oldPrice + ' ₽';
+                const d = Math.round((1 - p.price / p.oldPrice) * 100);
+                document.getElementById('detail-discount').innerText = '-' + d + '%';
+            } else {
+                document.getElementById('detail-old-price').innerText = '';
+                document.getElementById('detail-discount').innerText = '';
+            }
+
+            // Sizes
+            const sizesHtml = p.sizes.map(s => `
+                <button class="size-btn" onclick="selectSize('${s}', this)">${s}</button>
+            `).join('');
+            document.getElementById('detail-sizes').innerHTML = sizesHtml;
+
+            // Chat Link
+            document.getElementById('tg-btn').href = `tg://resolve?domain=${TG_USERNAME}`;
+
+            detailView.classList.add('active');
+        }
+
+        function closeProduct() {
+            detailView.classList.remove('active');
+        }
+
+        function selectSize(size, btn) {
+            selectedSize = size;
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        function addToCartCurrent() {
+            if (!selectedSize) {
+                alert('Пожалуйста, выберите размер');
+                return;
+            }
+            addToCart(currentProduct, selectedSize);
+            closeProduct();
+            // Tiny animation provided by float count update
+        }
+
+        // CART LOGIC
+        function addToCart(product, size) {
+            const existing = cart.find(i => i.id === product.id && i.size === size);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...product, size, qty: 1 });
+            }
+            saveCart();
+            alert('Товар добавлен в корзину');
+        }
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((acc, i) => acc + i.qty, 0);
+            document.getElementById('float-count').innerText = count;
+            document.getElementById('float-count').style.display = count > 0 ? 'flex' : 'none';
+        }
+
+        function openCart() {
+            renderCartList();
+            cartView.classList.add('active');
+        }
+
+        function closeCart() {
+            cartView.classList.remove('active');
+        }
+
+        function renderCartList() {
+            const listEl = document.getElementById('cart-list');
+            const footer = document.getElementById('cart-footer');
+            const empty = document.getElementById('cart-empty');
+
+            if (cart.length === 0) {
+                listEl.innerHTML = '';
+                footer.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+
+            footer.style.display = 'block';
+            empty.style.display = 'none';
+
+            let total = 0;
+            listEl.innerHTML = cart.map((item, idx) => {
+                total += item.price * item.qty;
+                return `
+                <div class="cart-item">
+                    <img src="${item.image}" class="cart-img">
+                    <div class="cart-info">
+                        <div class="cart-name">${item.name}</div>
+                        <div class="cart-details">Размер: ${item.size} | Цвет: ${item.color}</div>
+                        <div style="font-weight:600">${item.price} ₽</div>
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="updateQty(${idx}, -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button class="qty-btn" onclick="updateQty(${idx}, 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+
+            document.getElementById('cart-total-sum').innerText = total + ' ₽';
+        }
+
+        function updateQty(idx, change) {
+            cart[idx].qty += change;
+            if (cart[idx].qty <= 0) {
+                cart.splice(idx, 1);
+            }
+            saveCart();
+            renderCartList();
+        }
+
+        // CHECKOUT
+        function openCheckout() {
+            if (cart.length === 0) return;
+            document.getElementById('checkout-modal').classList.add('active');
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkout-modal').classList.remove('active');
+        }
+
+        function submitOrder() {
+            const name = document.getElementById('order-name').value;
+            const tg = document.getElementById('order-tg').value;
+            const comment = document.getElementById('order-comment').value;
+
+            if (!name || !tg) {
+                alert('Заполните Имя и Telegram');
+                return;
+            }
+
+            const order = {
+                customer: { name, tg, comment },
+                items: cart,
+                total: document.getElementById('cart-total-sum').innerText,
+                date: new Date().toLocaleString()
+            };
+
+            console.log('NEW ORDER:', order);
+            alert('Заказ отправлен! Мы свяжемся с вами в Telegram.\n(Данные в консоли)');
+
+            // Clear
+            cart = [];
+            saveCart();
+            closeCheckout();
+            closeCart();
+            renderCartList(); // update view
+        }
+
+        // Start
+        init();
+
+    </script>
+</body>
+
+</html>
