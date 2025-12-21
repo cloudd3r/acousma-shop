@@ -87,6 +87,10 @@
             padding: 16px 20px;
             overflow-x: auto;
             scrollbar-width: none;
+            background: var(--white);
+            position: sticky;
+            top: 70px;
+            z-index: 99;
             /* Firefox */
         }
 
@@ -225,19 +229,21 @@
         .back-btn {
             position: absolute;
             top: 16px;
-            left: 16px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 10;
-            background: rgba(255, 255, 255, 0.8);
+            background: white;
             border: none;
             width: 40px;
             height: 40px;
             border-radius: 50%;
             font-size: 20px;
             cursor: pointer;
-            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--text-main);
         }
 
         .detail-img {

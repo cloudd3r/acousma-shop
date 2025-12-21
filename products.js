@@ -1,6 +1,10 @@
 // Product catalog data
 const products = [
     // BRAS (Price 230) - 96 items
+    { id: 219, name: "Бюстгальтер Blush #219", category: "bra", price: 230, sizes: ["70B", "75B"], image: "bra/photo_219.jpg" },
+    { id: 223, name: "Бюстгальтер Crimson #223", category: "bra", price: 230, sizes: ["75B", "80B"], image: "bra/photo_223.jpg" },
+    { id: 225, name: "Бюстгальтер Indigo #225", category: "bra", price: 230, sizes: ["70C", "75C"], image: "bra/photo_225.jpg" },
+    { id: 233, name: "Бюстгальтер Lavender #233", category: "bra", price: 230, sizes: ["75B", "80B"], image: "bra/photo_233.jpg" },
     { id: 107, name: "Бюстгальтер Lace #107", category: "bra", price: 230, sizes: ["75B", "80B", "85C"], image: "bra/photo_107.jpg" },
     { id: 109, name: "Бюстгальтер Classic #109", category: "bra", price: 230, sizes: ["70B", "75B"], image: "bra/photo_109.jpg" },
     { id: 112, name: "Бюстгальтер Silk #112", category: "bra", price: 230, sizes: ["75C", "80C"], image: "bra/photo_112.jpg" },
@@ -49,10 +53,6 @@ const products = [
     { id: 211, name: "Бюстгальтер Garnet #211", category: "bra", price: 230, sizes: ["75B", "80B"], image: "bra/photo_211.jpg" },
     { id: 212, name: "Бюстгальтер Aqua #212", category: "bra", price: 230, sizes: ["70B", "75B"], image: "bra/photo_212.jpg" },
     { id: 218, name: "Бюстгальтер Azure #218", category: "bra", price: 230, sizes: ["75C", "80C"], image: "bra/photo_218.jpg" },
-    { id: 219, name: "Бюстгальтер Blush #219", category: "bra", price: 230, sizes: ["70B", "75B"], image: "bra/photo_219.jpg" },
-    { id: 223, name: "Бюстгальтер Crimson #223", category: "bra", price: 230, sizes: ["75B", "80B"], image: "bra/photo_223.jpg" },
-    { id: 225, name: "Бюстгальтер Indigo #225", category: "bra", price: 230, sizes: ["70C", "75C"], image: "bra/photo_225.jpg" },
-    { id: 233, name: "Бюстгальтер Lavender #233", category: "bra", price: 230, sizes: ["75B", "80B"], image: "bra/photo_233.jpg" },
     { id: 27, name: "Бюстгальтер Mint #27", category: "bra", price: 230, sizes: ["70B", "75B"], image: "bra/photo_27.jpg" },
     { id: 29, name: "Бюстгальтер Navy #29", category: "bra", price: 230, sizes: ["75C", "80C"], image: "bra/photo_29.jpg" },
     { id: 30, name: "Бюстгальтер Olive #30", category: "bra", price: 230, sizes: ["70B", "75B"], image: "bra/photo_30.jpg" },
