@@ -531,7 +531,7 @@
         <!-- Header -->
         <div class="app-container">
             <header>
-                <img src="logo.png" alt="Acousma" style="height: 60px; margin-bottom: 8px; display: block;">
+                <img src="logo.png" alt="Acousma" style="height: 60px; margin: 0 auto 8px auto; display: block;">
                 <p class="subtitle">Распродажа женского нижнего белья</p>
             </header>
 
@@ -752,8 +752,7 @@
                 <div class="card" onclick="openProduct(${p.id})">
                     <div class="card-img-wrap">
                         <img src="${p.image}" class="card-img" alt="${p.name}" loading="lazy">
-                        <!-- ${p.isNew ? `<div class="badge" style="color:#000">New</div>` : ''} -->
-                        <!-- ${discount > 0 ? `<div class="badge" style="background:#000; color:#fff; top:auto; bottom:8px; left:8px">-${discount}%</div>` : ''} -->
+                        
                     </div>
                     <div class="card-body">
                         <div class="card-title">${p.name}</div>
