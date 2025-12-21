@@ -529,47 +529,48 @@
     <div id="app">
 
         <!-- Header -->
-        <header id="main-header">
-            <div class="brand">LUMIÈRE LINGERIE</div>
-            <div class="subtitle">Распродажа женского нижнего белья</div>
-        </header>
+        <div class="app-container">
+            <header>
+                <img src="logo.png" alt="Acousma" style="height: 60px; margin-bottom: 8px; display: block;">
+                <p class="subtitle">Распродажа женского нижнего белья</p>
+            </header>
 
-        <!-- Main View: Catalog -->
-        <div id="catalog-view">
-            <div class="categories">
-                <div class="cat-pill active" onclick="filterCat('all', this)">Все</div>
-                <div class="cat-pill" onclick="filterCat('bra', this)">Бюстгальтеры</div>
-                <div class="cat-pill" onclick="filterCat('panties', this)">Трусы</div>
-                <div class="cat-pill" onclick="filterCat('nightgowns', this)">Сорочки</div>
-                <div class="cat-pill" onclick="filterCat('corset', this)">Корсеты</div>
-                <div class="cat-pill" onclick="filterCat('top', this)">Топы</div>
-                <div class="cat-pill" onclick="filterCat('set', this)">Комплекты</div>
+            <!-- Main View: Catalog -->
+            <div id="catalog-view">
+                <div class="categories">
+                    <div class="cat-pill active" onclick="filterCat('all', this)">Все</div>
+                    <div class="cat-pill" onclick="filterCat('bra', this)">Бюстгальтеры</div>
+                    <div class="cat-pill" onclick="filterCat('panties', this)">Трусы</div>
+                    <div class="cat-pill" onclick="filterCat('nightgowns', this)">Сорочки</div>
+                    <div class="cat-pill" onclick="filterCat('corset', this)">Корсеты</div>
+                    <div class="cat-pill" onclick="filterCat('top', this)">Топы</div>
+                    <div class="cat-pill" onclick="filterCat('set', this)">Комплекты</div>
+                </div>
+
+                <div class="grid" id="product-grid">
+                    <!-- Products injected here -->
+                </div>
             </div>
 
-            <div class="grid" id="product-grid">
-                <!-- Products injected here -->
-            </div>
-        </div>
-
-        <!-- Detail View -->
-        <div id="product-view" class="view">
-            <button class="back-btn" onclick="closeProduct()">←</button>
-            <img id="detail-img" class="detail-img" src="" alt="">
-            <div class="detail-content">
-                <div class="detail-row">
-                    <div>
-                        <h2 id="detail-name" style="font-size: 18px; margin-bottom: 4px;">Name</h2>
-                        <div style="color: var(--text-light); font-size: 13px;" id="detail-brand">Lormar</div>
+            <!-- Detail View -->
+            <div id="product-view" class="view">
+                <button class="back-btn" onclick="closeProduct()">←</button>
+                <img id="detail-img" class="detail-img" src="" alt="">
+                <div class="detail-content">
+                    <div class="detail-row">
+                        <div>
+                            <h2 id="detail-name" style="font-size: 18px; margin-bottom: 4px;">Name</h2>
+                            <!-- <div style="color: var(--text-light); font-size: 13px;" id="detail-brand">Lormar</div> -->
+                        </div>
                     </div>
-                </div>
 
-                <div class="detail-price">
-                    <span id="detail-price">2500 ₽</span>
-                    <span id="detail-old-price" class="old-price"></span>
-                    <span id="detail-discount" style="font-size: 14px; color: var(--success); margin-left:8px"></span>
-                </div>
+                    <div class="detail-price">
+                        <span id="detail-price">0 ₽</span>
+                        <!-- <span id="detail-old-price" class="old-price"></span>
+                    <span id="detail-discount" style="font-size: 14px; color: var(--success); margin-left:8px"></span> -->
+                    </div>
 
-                <div class="detail-meta">
+                    <!-- <div class="detail-meta">
                     <div class="meta-item">
                         <span class="meta-label">Материал</span>
                         <span>Кружево, полиамид</span>
@@ -583,334 +584,333 @@
                 <div class="size-selector">
                     <span class="size-label">Выберите размер:</span>
                     <div class="sizes-grid" id="detail-sizes">
-                        <!-- Sizes injected here -->
                     </div>
+                </div> -->
+
+                    <div style="height: 20px;"></div>
                 </div>
 
-                <div style="height: 60px;"></div> <!-- Spacer -->
-            </div>
-
-            <div class="action-bar">
+                <!-- <div class="action-bar">
                 <a href="#" id="tg-btn" class="btn btn-outline" style="flex:0.4">Chat</a>
                 <button class="btn btn-primary" onclick="addToCartCurrent()">В корзину</button>
-            </div>
-        </div>
-
-        <!-- Cart View -->
-        <div id="cart-view" class="view">
-            <header style="display:flex; justify-content:space-between; align-items:center;">
-                <button class="back-btn" style="position:static; width:32px; height:32px; font-size:16px;"
-                    onclick="closeCart()">←</button>
-                <span style="font-weight:600;">Корзина</span>
-                <div style="width:32px"></div>
-            </header>
-
-            <div id="cart-list">
-                <!-- Cart items -->
+            </div> -->
             </div>
 
-            <div class="cart-total" id="cart-footer" style="display:none">
-                <div class="total-row">
-                    <span>Итого:</span>
-                    <span id="cart-total-sum">0 ₽</span>
+            <!-- Cart View -->
+            <div id="cart-view" class="view">
+                <header style="display:flex; justify-content:space-between; align-items:center;">
+                    <button class="back-btn" style="position:static; width:32px; height:32px; font-size:16px;"
+                        onclick="closeCart()">←</button>
+                    <span style="font-weight:600;">Корзина</span>
+                    <div style="width:32px"></div>
+                </header>
+
+                <div id="cart-list">
+                    <!-- Cart items -->
                 </div>
-                <button class="btn btn-primary" style="width:100%" onclick="openCheckout()">Оформить заказ</button>
+
+                <div class="cart-total" id="cart-footer" style="display:none">
+                    <div class="total-row">
+                        <span>Итого:</span>
+                        <span id="cart-total-sum">0 ₽</span>
+                    </div>
+                    <button class="btn btn-primary" style="width:100%" onclick="openCheckout()">Оформить заказ</button>
+                </div>
+
+                <div id="cart-empty" class="empty-cart">
+                    Ваша корзина пуста
+                </div>
             </div>
 
-            <div id="cart-empty" class="empty-cart">
-                Ваша корзина пуста
+            <!-- Checkout Modal -->
+            <div id="checkout-modal" class="modal-overlay" onclick="if(event.target===this) closeCheckout()">
+                <div class="modal-content">
+                    <h3 style="margin-bottom:20px;">Оформление заказа</h3>
+                    <div class="form-group">
+                        <label class="form-label">Ваше имя</label>
+                        <input type="text" class="form-input" id="order-name" placeholder="Мария">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Telegram username</label>
+                        <input type="text" class="form-input" id="order-tg" placeholder="@username">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Комментарий</label>
+                        <input type="text" class="form-input" id="order-comment"
+                            placeholder="Способ связи, пожелания...">
+                    </div>
+                    <button class="btn btn-primary" style="width:100%" onclick="submitOrder()">Отправить заказ</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Checkout Modal -->
-        <div id="checkout-modal" class="modal-overlay" onclick="if(event.target===this) closeCheckout()">
-            <div class="modal-content">
-                <h3 style="margin-bottom:20px;">Оформление заказа</h3>
-                <div class="form-group">
-                    <label class="form-label">Ваше имя</label>
-                    <input type="text" class="form-input" id="order-name" placeholder="Мария">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Telegram username</label>
-                    <input type="text" class="form-input" id="order-tg" placeholder="@username">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Комментарий</label>
-                    <input type="text" class="form-input" id="order-comment" placeholder="Способ связи, пожелания...">
-                </div>
-                <button class="btn btn-primary" style="width:100%" onclick="submitOrder()">Отправить заказ</button>
-            </div>
-        </div>
-
-        <!-- Floating Cart -->
-        <div class="floating-cart" onclick="openCart()">
+            <!-- Floating Cart -->
+            <!-- <div class="floating-cart" onclick="openCart()">
             <div class="cart-count" id="float-count">0</div>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path
                     d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-19l-2 2H2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.59-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm0 0" />
             </svg>
+        </div> -->
+
         </div>
 
-    </div>
+        <!-- Scripts -->
+        <script>
+            // CONFIG
+            const TG_USERNAME = "acousma_app_bot";
 
-    <!-- Scripts -->
-    <script>
-        // CONFIG
-        const TG_USERNAME = "my_lingerie_shop"; // REPLACE THIS
+            // MOCK DATA
+            const products = [
+                // BRAS (Price 230)
+                { id: 107, name: "Бюстгальтер Lace #107", category: "bra", price: 230, sizes: ["75B", "80B", "85C"], image: "bra/photo_107.jpg" },
+                { id: 109, name: "Бюстгальтер Classic #109", category: "bra", price: 230, sizes: ["70B", "75B"], image: "bra/photo_109.jpg" },
+                { id: 112, name: "Бюстгальтер Silk #112", category: "bra", price: 230, sizes: ["75C", "80C"], image: "bra/photo_112.jpg" },
+                { id: 116, name: "Бюстгальтер PushUp #116", category: "bra", price: 230, sizes: ["70A", "75A"], image: "bra/photo_116.jpg" },
+                { id: 117, name: "Бюстгальтер Soft #117", category: "bra", price: 230, sizes: ["80B", "85B"], image: "bra/photo_117.jpg" },
 
-        // MOCK DATA
-        const products = [
-            // BRAS
-            { id: 107, name: "Бюстгальтер Lace #107", category: "bra", price: 2500, sizes: ["75B", "80B", "85C"], image: "bra/photo_107.jpg", color: "Бежевый", isNew: true },
-            { id: 109, name: "Бюстгальтер Classic #109", category: "bra", price: 2200, sizes: ["70B", "75B"], image: "bra/photo_109.jpg", color: "Белый" },
-            { id: 112, name: "Бюстгальтер Silk #112", category: "bra", price: 2800, oldPrice: 3200, sizes: ["75C", "80C"], image: "bra/photo_112.jpg", color: "Черный" },
-            { id: 116, name: "Бюстгальтер PushUp #116", category: "bra", price: 2100, sizes: ["70A", "75A"], image: "bra/photo_116.jpg", color: "Красный" },
-            { id: 117, name: "Бюстгальтер Soft #117", category: "bra", price: 2300, sizes: ["80B", "85B"], image: "bra/photo_117.jpg", color: "Синий" },
+                // CORSETS (Price 230)
+                { id: 1001, name: "Корсет Satin #1", category: "corset", price: 230, sizes: ["S", "M"], image: "corset/corset_1_1.jpg" },
+                { id: 1002, name: "Корсет Lace #2", category: "corset", price: 230, sizes: ["M", "L"], image: "corset/corset_2_1.jpg" },
+                { id: 1003, name: "Корсет Elegant #3", category: "corset", price: 230, sizes: ["S", "M", "L"], image: "corset/corset_3_1.jpg" },
+                { id: 1004, name: "Корсет Night #4", category: "corset", price: 230, sizes: ["XS", "S"], image: "corset/corset_4_1.jpg" },
+                { id: 1005, name: "Корсет Royal #5", category: "corset", price: 230, sizes: ["M", "L"], image: "corset/corset_5_1.jpg" },
 
-            // CORSETS
-            { id: 1001, name: "Корсет Satin #1", category: "corset", price: 4500, sizes: ["S", "M"], image: "corset/corset_1_1.jpg", color: "Бежевый", isNew: true },
-            { id: 1002, name: "Корсет Lace #2", category: "corset", price: 4200, sizes: ["M", "L"], image: "corset/corset_2_1.jpg", color: "Черный" },
-            { id: 1003, name: "Корсет Elegant #3", category: "corset", price: 4800, oldPrice: 5500, sizes: ["S", "M", "L"], image: "corset/corset_3_1.jpg", color: "Белый" },
-            { id: 1004, name: "Корсет Night #4", category: "corset", price: 4100, sizes: ["XS", "S"], image: "corset/corset_4_1.jpg", color: "Красный" },
-            { id: 1005, name: "Корсет Royal #5", category: "corset", price: 5000, sizes: ["M", "L"], image: "corset/corset_5_1.jpg", color: "Золотой" },
+                // NIGHTGOWNS (Price 230)
+                { id: 2002, name: "Сорочка Silk #2", category: "nightgowns", price: 230, sizes: ["S", "M"], image: "nightgowns/photo_2.jpg" },
+                { id: 2005, name: "Сорочка Lace #5", category: "nightgowns", price: 230, sizes: ["M", "L"], image: "nightgowns/photo_5.jpg" },
+                { id: 2017, name: "Сорочка Long #17", category: "nightgowns", price: 230, sizes: ["L", "XL"], image: "nightgowns/photo_17.jpg" },
+                { id: 2023, name: "Сорочка Mini #23", category: "nightgowns", price: 230, sizes: ["S", "M"], image: "nightgowns/photo_23.jpg" },
+                { id: 2025, name: "Сорочка Comfort #25", category: "nightgowns", price: 230, sizes: ["S", "M", "L"], image: "nightgowns/photo_25.jpg" },
 
-            // NIGHTGOWNS
-            { id: 2002, name: "Сорочка Silk #2", category: "nightgowns", price: 3500, sizes: ["S", "M"], image: "nightgowns/photo_2.jpg", color: "Розовый" },
-            { id: 2005, name: "Сорочка Lace #5", category: "nightgowns", price: 3200, sizes: ["M", "L"], image: "nightgowns/photo_5.jpg", color: "Белый", isNew: true },
-            { id: 2017, name: "Сорочка Long #17", category: "nightgowns", price: 3800, sizes: ["L", "XL"], image: "nightgowns/photo_17.jpg", color: "Черный" },
-            { id: 2023, name: "Сорочка Mini #23", category: "nightgowns", price: 2900, oldPrice: 3400, sizes: ["S", "M"], image: "nightgowns/photo_23.jpg", color: "Красный" },
-            { id: 2025, name: "Сорочка Comfort #25", category: "nightgowns", price: 2700, sizes: ["S", "M", "L"], image: "nightgowns/photo_25.jpg", color: "Синий" },
+                // PANTIES (Price 120)
+                { id: 3305, name: "Трусики Lace #305", category: "panties", price: 120, sizes: ["S", "M"], image: "panties/photo_305.jpg" },
+                { id: 3306, name: "Трусики Brazilian #306", category: "panties", price: 120, sizes: ["M", "L"], image: "panties/photo_306.jpg" },
+                { id: 3307, name: "Трусики Slip #307", category: "panties", price: 120, sizes: ["S", "M", "L"], image: "panties/photo_307.jpg" },
+                { id: 3308, name: "Трусики High #308", category: "panties", price: 120, sizes: ["M", "L", "XL"], image: "panties/photo_308.jpg" },
+                { id: 3309, name: "Трусики Silk #309", category: "panties", price: 120, sizes: ["S", "M"], image: "panties/photo_309.jpg" },
 
-            // PANTIES
-            { id: 3305, name: "Трусики Lace #305", category: "panties", price: 800, sizes: ["S", "M"], image: "panties/photo_305.jpg", color: "Белый" },
-            { id: 3306, name: "Трусики Brazilian #306", category: "panties", price: 850, sizes: ["M", "L"], image: "panties/photo_306.jpg", color: "Черный" },
-            { id: 3307, name: "Трусики Slip #307", category: "panties", price: 750, sizes: ["S", "M", "L"], image: "panties/photo_307.jpg", color: "Бежевый", isNew: true },
-            { id: 3308, name: "Трусики High #308", category: "panties", price: 900, sizes: ["M", "L", "XL"], image: "panties/photo_308.jpg", color: "Красный" },
-            { id: 3309, name: "Трусики Silk #309", category: "panties", price: 950, sizes: ["S", "M"], image: "panties/photo_309.jpg", color: "Розовый" },
+                // SETS (Price 350)
+                { id: 4100, name: "Комплект Love #100", category: "set", price: 350, sizes: ["75B+S", "80B+M"], image: "set/photo_100.jpg" },
+                { id: 4101, name: "Комплект Night #101", category: "set", price: 350, sizes: ["70B+S", "75B+M"], image: "set/photo_101.jpg" },
+                { id: 4104, name: "Комплект Mystery #104", category: "set", price: 350, sizes: ["75C+M", "80C+L"], image: "set/photo_104.jpg" },
+                { id: 4105, name: "Комплект Angel #105", category: "set", price: 350, sizes: ["70B+S", "75B+M"], image: "set/photo_105.jpg" },
+                { id: 4106, name: "Комплект Passion #106", category: "set", price: 350, sizes: ["75B+S", "80B+M"], image: "set/photo_106.jpg" },
 
-            // SETS
-            { id: 4100, name: "Комплект Love #100", category: "set", price: 4200, sizes: ["75B+S", "80B+M"], image: "set/photo_100.jpg", color: "Красный", isNew: true },
-            { id: 4101, name: "Комплект Night #101", category: "set", price: 4500, sizes: ["70B+S", "75B+M"], image: "set/photo_101.jpg", color: "Черный" },
-            { id: 4104, name: "Комплект Mystery #104", category: "set", price: 4800, sizes: ["75C+M", "80C+L"], image: "set/photo_104.jpg", color: "Синий" },
-            { id: 4105, name: "Комплект Angel #105", category: "set", price: 4100, oldPrice: 4700, sizes: ["70B+S", "75B+M"], image: "set/photo_105.jpg", color: "Белый" },
-            { id: 4106, name: "Комплект Passion #106", category: "set", price: 4300, sizes: ["75B+S", "80B+M"], image: "set/photo_106.jpg", color: "Бордовый" },
+                // TOPS (Price 230)
+                { id: 5011, name: "Топ Sport #11", category: "top", price: 230, sizes: ["S", "M"], image: "top/photo_11.jpg" },
+                { id: 5012, name: "Топ Lace #12", category: "top", price: 230, sizes: ["M", "L"], image: "top/photo_12.jpg" },
+                { id: 5018, name: "Топ Silk #18", category: "top", price: 230, sizes: ["S", "M"], image: "top/photo_18.jpg" },
+                { id: 5022, name: "Топ Basic #22", category: "top", price: 230, sizes: ["XS", "S", "M"], image: "top/photo_22.jpg" },
+                { id: 5009, name: "Топ Summer #9", category: "top", price: 230, sizes: ["S", "M"], image: "top/photo_9.jpg" }
+            ];
 
-            // TOPS
-            { id: 5011, name: "Топ Sport #11", category: "top", price: 1500, sizes: ["S", "M"], image: "top/photo_11.jpg", color: "Серый" },
-            { id: 5012, name: "Топ Lace #12", category: "top", price: 1800, sizes: ["M", "L"], image: "top/photo_12.jpg", color: "Черный", isNew: true },
-            { id: 5018, name: "Топ Silk #18", category: "top", price: 2100, sizes: ["S", "M"], image: "top/photo_18.jpg", color: "Белый" },
-            { id: 5022, name: "Топ Basic #22", category: "top", price: 1200, sizes: ["XS", "S", "M"], image: "top/photo_22.jpg", color: "Бежевый" },
-            { id: 5009, name: "Топ Summer #9", category: "top", price: 1400, sizes: ["S", "M"], image: "top/photo_9.jpg", color: "Розовый" }
-        ];
+            // STATE
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let currentProduct = null;
+            let selectedSize = null;
 
-        // STATE
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        let currentProduct = null;
-        let selectedSize = null;
+            // DOM ELEMENTS
+            const grid = document.getElementById('product-grid');
+            const detailView = document.getElementById('product-view');
+            const cartView = document.getElementById('cart-view');
 
-        // DOM ELEMENTS
-        const grid = document.getElementById('product-grid');
-        const detailView = document.getElementById('product-view');
-        const cartView = document.getElementById('cart-view');
+            // PAGINATION & STATE
+            let currentPage = 1;
+            const itemsPerPage = 20;
+            let currentFilteredList = [];
+            let observer;
 
-        // PAGINATION & STATE
-        let currentPage = 1;
-        const itemsPerPage = 20;
-        let currentFilteredList = [];
-
-        // INIT
-        function init() {
-            currentFilteredList = products;
-            renderProductChunks(true);
-            setupInfiniteScroll();
-            updateCartCount();
-        }
-
-        // RENDER LOGIC (CHUNKS)
-        function renderProductChunks(reset = false) {
-            if (reset) {
-                currentPage = 1;
-                grid.innerHTML = '';
-                window.scrollTo(0, 0);
+            // INIT
+            function init() {
+                filterCat('all', document.querySelector('.cat-pill.active'));
+                setupInfiniteScroll();
+                // updateCartCount(); // No floating cart
             }
 
-            const start = (currentPage - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            const chunk = currentFilteredList.slice(start, end);
+            // RENDER LOGIC (CHUNKS)
+            function renderProductChunks(page) {
+                // if (reset) {
+                //     currentPage = 1;
+                //     grid.innerHTML = '';
+                //     window.scrollTo(0, 0);
+                // }
 
-            // If empty search result
-            if (chunk.length === 0 && currentPage === 1) {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; color:var(--text-light)">Ничего не найдено</div>';
-                return;
-            }
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const chunk = currentFilteredList.slice(start, end);
 
-            // Append items
-            const html = chunk.map(p => {
-                const discount = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
-                return `
+                // If empty search result
+                if (chunk.length === 0 && currentPage === 1) {
+                    grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; color:var(--text-light)">Ничего не найдено</div>';
+                    return;
+                }
+
+                // Append items
+                const html = chunk.map(p => {
+                    // const discount = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
+                    return `
                 <div class="card" onclick="openProduct(${p.id})">
                     <div class="card-img-wrap">
                         <img src="${p.image}" class="card-img" alt="${p.name}" loading="lazy">
-                        ${p.isNew ? `<div class="badge" style="color:#000">New</div>` : ''}
-                        ${discount > 0 ? `<div class="badge" style="background:#000; color:#fff; top:auto; bottom:8px; left:8px">-${discount}%</div>` : ''}
+                        <!-- ${p.isNew ? `<div class="badge" style="color:#000">New</div>` : ''} -->
+                        <!-- ${discount > 0 ? `<div class="badge" style="background:#000; color:#fff; top:auto; bottom:8px; left:8px">-${discount}%</div>` : ''} -->
                     </div>
                     <div class="card-body">
                         <div class="card-title">${p.name}</div>
-                        <div>
+                        <!-- Price hidden in grid as requested -->
+                        <!-- <div>
                             <span class="card-price">${p.price} ₽</span>
                             ${p.oldPrice ? `<span class="old-price">${p.oldPrice}</span>` : ''}
                         </div>
-                        <div class="card-sizes">${p.sizes.slice(0, 3).join(', ')}</div>
+                        <div class="card-sizes">${p.sizes.slice(0, 3).join(', ')}</div> -->
                     </div>
                 </div>
             `}).join('');
 
-            grid.insertAdjacentHTML('beforeend', html);
-        }
-
-        function loadMore() {
-            const totalPages = Math.ceil(currentFilteredList.length / itemsPerPage);
-            if (currentPage < totalPages) {
-                currentPage++;
-                renderProductChunks(false);
+                grid.insertAdjacentHTML('beforeend', html);
             }
-        }
 
-        // INFINITE SCROLL
-        function setupInfiniteScroll() {
-            const sentinel = document.createElement('div');
-            sentinel.style.height = '20px';
-            grid.parentNode.appendChild(sentinel);
-
-            const observer = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) {
-                    loadMore();
+            function loadMore() {
+                const totalPages = Math.ceil(currentFilteredList.length / itemsPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderProductChunks(currentPage);
                 }
-            }, { rootMargin: '400px' });
-
-            observer.observe(sentinel);
-        }
-
-        // FILTER UPDATE
-        function filterCat(cat, btn) {
-            document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active'));
-            btn.classList.add('active');
-
-            if (cat === 'all') {
-                currentFilteredList = products;
-            } else if (cat === 'sale') {
-                currentFilteredList = products.filter(p => p.oldPrice && p.price < p.oldPrice);
-            } else {
-                currentFilteredList = products.filter(p => p.category === cat);
-            }
-            renderProductChunks(true);
-        }
-
-        // PRODUCT DETAILS
-        function openProduct(id) {
-            const p = products.find(x => x.id === id);
-            currentProduct = p;
-            selectedSize = null;
-
-            document.getElementById('detail-img').src = p.image;
-            document.getElementById('detail-name').innerText = p.name;
-            document.getElementById('detail-brand').innerText = p.brand;
-            document.getElementById('detail-price').innerText = p.price + ' ₽';
-            document.getElementById('detail-color').innerText = p.color;
-
-            // Old Price
-            if (p.oldPrice) {
-                document.getElementById('detail-old-price').innerText = p.oldPrice + ' ₽';
-                const d = Math.round((1 - p.price / p.oldPrice) * 100);
-                document.getElementById('detail-discount').innerText = '-' + d + '%';
-            } else {
-                document.getElementById('detail-old-price').innerText = '';
-                document.getElementById('detail-discount').innerText = '';
             }
 
-            // Sizes
-            const sizesHtml = p.sizes.map(s => `
-                <button class="size-btn" onclick="selectSize('${s}', this)">${s}</button>
-            `).join('');
-            document.getElementById('detail-sizes').innerHTML = sizesHtml;
+            // INFINITE SCROLL
+            function setupInfiniteScroll() {
+                const options = {
+                    root: null,
+                    rootMargin: '100px',
+                    threshold: 0.1
+                };
 
-            // Chat Link
-            document.getElementById('tg-btn').href = `tg://resolve?domain=${TG_USERNAME}`;
+                observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            loadMore();
+                        }
+                    });
+                }, options);
 
-            detailView.classList.add('active');
-        }
-
-        function closeProduct() {
-            detailView.classList.remove('active');
-        }
-
-        function selectSize(size, btn) {
-            selectedSize = size;
-            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-        }
-
-        function addToCartCurrent() {
-            if (!selectedSize) {
-                alert('Пожалуйста, выберите размер');
-                return;
-            }
-            addToCart(currentProduct, selectedSize);
-            closeProduct();
-            // Tiny animation provided by float count update
-        }
-
-        // CART LOGIC
-        function addToCart(product, size) {
-            const existing = cart.find(i => i.id === product.id && i.size === size);
-            if (existing) {
-                existing.qty++;
-            } else {
-                cart.push({ ...product, size, qty: 1 });
-            }
-            saveCart();
-            alert('Товар добавлен в корзину');
-        }
-
-        function saveCart() {
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartCount();
-        }
-
-        function updateCartCount() {
-            const count = cart.reduce((acc, i) => acc + i.qty, 0);
-            document.getElementById('float-count').innerText = count;
-            document.getElementById('float-count').style.display = count > 0 ? 'flex' : 'none';
-        }
-
-        function openCart() {
-            renderCartList();
-            cartView.classList.add('active');
-        }
-
-        function closeCart() {
-            cartView.classList.remove('active');
-        }
-
-        function renderCartList() {
-            const listEl = document.getElementById('cart-list');
-            const footer = document.getElementById('cart-footer');
-            const empty = document.getElementById('cart-empty');
-
-            if (cart.length === 0) {
-                listEl.innerHTML = '';
-                footer.style.display = 'none';
-                empty.style.display = 'block';
-                return;
+                // Observe a sentinel element at the bottom
+                const sentinel = document.createElement('div');
+                sentinel.id = 'sentinel';
+                document.getElementById('catalog-view').appendChild(sentinel);
+                observer.observe(sentinel);
             }
 
-            footer.style.display = 'block';
-            empty.style.display = 'none';
+            // FILTER UPDATE
+            function filterCat(cat, btn) {
+                document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active'));
+                btn.classList.add('active');
 
-            let total = 0;
-            listEl.innerHTML = cart.map((item, idx) => {
-                total += item.price * item.qty;
-                return `
+                if (cat === 'all') {
+                    currentFilteredList = products;
+                } else if (cat === 'sale') {
+                    currentFilteredList = products.filter(p => p.oldPrice && p.price < p.oldPrice);
+                } else {
+                    currentFilteredList = products.filter(p => p.category === cat);
+                }
+                // renderProductChunks(true);
+                currentPage = 1;
+                document.getElementById('product-grid').innerHTML = ''; // Clear grid
+
+                renderProductChunks(1); // Render first page
+            }
+
+            // PRODUCT DETAILS
+            function openProduct(id) {
+                const p = products.find(x => x.id === id);
+                currentProduct = p;
+                selectedSize = null;
+
+                document.getElementById('detail-img').src = p.image;
+                document.getElementById('detail-name').innerText = p.name;
+                // document.getElementById('detail-brand').innerText = p.brand; // Removed
+                document.getElementById('detail-price').innerText = p.price + ' ₽';
+                // document.getElementById('detail-color').innerText = p.color; // Removed
+
+                // Old Price (Removed)
+                // if (p.oldPrice) {
+                //     document.getElementById('detail-old-price').innerText = p.oldPrice + ' ₽';
+                //     const d = Math.round((1 - p.price / p.oldPrice) * 100);
+                //     document.getElementById('detail-discount').innerText = '-' + d + '%';
+                // } else {
+                //     document.getElementById('detail-old-price').innerText = '';
+                //     document.getElementById('detail-discount').innerText = '';
+                // }
+
+                // Sizes (Removed)
+                // const sizesHtml = p.sizes.map(s => `
+                //     <button class="size-btn" onclick="selectSize('${s}', this)">${s}</button>
+                // `).join('');
+                // document.getElementById('detail-sizes').innerHTML = sizesHtml;
+
+                // Chat Link (Removed)
+                // document.getElementById('tg-btn').href = `tg://resolve?domain=${TG_USERNAME}`;
+
+                detailView.classList.add('active');
+            }
+
+            function closeProduct() {
+                detailView.classList.remove('active');
+            }
+
+            // CART LOGIC
+            function addToCart(product, size) {
+                const existing = cart.find(i => i.id === product.id && i.size === size);
+                if (existing) {
+                    existing.qty++;
+                } else {
+                    cart.push({ ...product, size, qty: 1 });
+                }
+                saveCart();
+                alert('Товар добавлен в корзину');
+            }
+
+            function saveCart() {
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartCount();
+            }
+
+            function updateCartCount() {
+                const el = document.getElementById('float-count');
+                if (!el) return;
+                const count = cart.reduce((acc, i) => acc + i.qty, 0);
+                el.innerText = count;
+                el.style.display = count > 0 ? 'flex' : 'none';
+            }
+
+            function openCart() {
+                renderCartList();
+                cartView.classList.add('active');
+            }
+
+            function closeCart() {
+                cartView.classList.remove('active');
+            }
+
+            function renderCartList() {
+                const listEl = document.getElementById('cart-list');
+                const footer = document.getElementById('cart-footer');
+                const empty = document.getElementById('cart-empty');
+
+                if (cart.length === 0) {
+                    listEl.innerHTML = '';
+                    footer.style.display = 'none';
+                    empty.style.display = 'block';
+                    return;
+                }
+
+                footer.style.display = 'block';
+                empty.style.display = 'none';
+
+                let total = 0;
+                listEl.innerHTML = cart.map((item, idx) => {
+                    total += item.price * item.qty;
+                    return `
                 <div class="cart-item">
                     <img src="${item.image}" class="cart-img">
                     <div class="cart-info">
@@ -926,60 +926,60 @@
                 </div>
             `}).join('');
 
-            document.getElementById('cart-total-sum').innerText = total + ' ₽';
-        }
-
-        function updateQty(idx, change) {
-            cart[idx].qty += change;
-            if (cart[idx].qty <= 0) {
-                cart.splice(idx, 1);
-            }
-            saveCart();
-            renderCartList();
-        }
-
-        // CHECKOUT
-        function openCheckout() {
-            if (cart.length === 0) return;
-            document.getElementById('checkout-modal').classList.add('active');
-        }
-
-        function closeCheckout() {
-            document.getElementById('checkout-modal').classList.remove('active');
-        }
-
-        function submitOrder() {
-            const name = document.getElementById('order-name').value;
-            const tg = document.getElementById('order-tg').value;
-            const comment = document.getElementById('order-comment').value;
-
-            if (!name || !tg) {
-                alert('Заполните Имя и Telegram');
-                return;
+                document.getElementById('cart-total-sum').innerText = total + ' ₽';
             }
 
-            const order = {
-                customer: { name, tg, comment },
-                items: cart,
-                total: document.getElementById('cart-total-sum').innerText,
-                date: new Date().toLocaleString()
-            };
+            function updateQty(idx, change) {
+                cart[idx].qty += change;
+                if (cart[idx].qty <= 0) {
+                    cart.splice(idx, 1);
+                }
+                saveCart();
+                renderCartList();
+            }
 
-            console.log('NEW ORDER:', order);
-            alert('Заказ отправлен! Мы свяжемся с вами в Telegram.\n(Данные в консоли)');
+            // CHECKOUT
+            function openCheckout() {
+                if (cart.length === 0) return;
+                document.getElementById('checkout-modal').classList.add('active');
+            }
 
-            // Clear
-            cart = [];
-            saveCart();
-            closeCheckout();
-            closeCart();
-            renderCartList(); // update view
-        }
+            function closeCheckout() {
+                document.getElementById('checkout-modal').classList.remove('active');
+            }
 
-        // Start
-        init();
+            function submitOrder() {
+                const name = document.getElementById('order-name').value;
+                const tg = document.getElementById('order-tg').value;
+                const comment = document.getElementById('order-comment').value;
 
-    </script>
+                if (!name || !tg) {
+                    alert('Заполните Имя и Telegram');
+                    return;
+                }
+
+                const order = {
+                    customer: { name, tg, comment },
+                    items: cart,
+                    total: document.getElementById('cart-total-sum').innerText,
+                    date: new Date().toLocaleString()
+                };
+
+                console.log('NEW ORDER:', order);
+                alert('Заказ отправлен! Мы свяжемся с вами в Telegram.\n(Данные в консоли)');
+
+                // Clear
+                cart = [];
+                saveCart();
+                closeCheckout();
+                closeCart();
+                renderCartList(); // update view
+            }
+
+            // Start
+            init();
+
+        </script>
 </body>
 
 </html>
