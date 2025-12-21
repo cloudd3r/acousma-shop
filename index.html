@@ -58,7 +58,7 @@
         /* Header */
         header {
             background: var(--white);
-            padding: 16px 20px;
+            padding: 5px 20px;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -242,28 +242,29 @@
 
         .detail-img {
             width: 100%;
-            height: 50vh;
+            height: 65vh;
             object-fit: cover;
         }
 
         .detail-content {
-            padding: 24px;
+            padding: 16px 24px;
             background: var(--white);
             border-radius: 24px 24px 0 0;
             margin-top: -24px;
             position: relative;
-            min-height: 50vh;
+            min-height: 20vh;
+            text-align: center;
         }
 
         .detail-row {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 16px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
         }
 
         .detail-price {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 600;
             color: var(--primary-dark);
         }
@@ -747,21 +748,16 @@
 
                 // Append items
                 const html = chunk.map(p => {
-                    // const discount = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
                     return `
                 <div class="card" onclick="openProduct(${p.id})">
                     <div class="card-img-wrap">
                         <img src="${p.image}" class="card-img" alt="${p.name}" loading="lazy">
-                        
                     </div>
                     <div class="card-body">
                         <div class="card-title">${p.name}</div>
-                        <!-- Price hidden in grid as requested -->
-                        <!-- <div>
+                        <div>
                             <span class="card-price">${p.price} ₽</span>
-                            ${p.oldPrice ? `<span class="old-price">${p.oldPrice}</span>` : ''}
                         </div>
-                        <div class="card-sizes">${p.sizes.slice(0, 3).join(', ')}</div> -->
                     </div>
                 </div>
             `}).join('');
