@@ -777,6 +777,9 @@
                 document.getElementById('product-grid').innerHTML = ''; // Clear grid
 
                 renderProductChunks(1); // Render first page
+
+                // Scroll to top when changing category
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
             // PRODUCT DETAILS
